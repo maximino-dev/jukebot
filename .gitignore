@@ -1,0 +1,7 @@
+jukebot
+
+*.exe
+*.out
+
+config.json
+*.env

@@ -1,0 +1,7 @@
+{
+  "client_id": "YOUTUBE_CLIENT_ID",
+  "client_secret": "YOUTUBE_CLIENT_SECRET",
+  "refresh_token": "REFRESH_TOKEN", // can be empty
+  "playlist_id": "YOUTUBE_PLAYLIST_ID",
+  "discord_token": "DISCORD_TOKEN"
+}
