@@ -11,3 +11,8 @@ cd jukebot
 ```bash
 go mod tidy
 ```
+
+### 3. Construire l'exécutable
+```bash
+go build .
+```
