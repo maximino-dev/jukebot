@@ -23,6 +23,7 @@ type Config struct {
 	RefreshToken string `json:"refresh_token"`
 	PlaylistID   string `json:"playlist_id"`
 	DiscordToken string `json:"discord_token"`
+	ChannelId    string `json:"channel_id"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -34,6 +35,18 @@ func LoadConfig() (*Config, error) {
 	var cfg Config
 	if err := json.Unmarshal(data, &cfg); err != nil {
 		return nil, err
+	}
+
+	if cfg.ClientID == "" || cfg.ClientSecret == "" {
+		return nil, fmt.Errorf("Veuillez saisir les champs client_secret et client_id dans le fichier de config")
+	}
+
+	if cfg.ChannelId == "" {
+		return nil, fmt.Errorf("Veuillez saisir un id de salon Discord dans le fichier de configuration")
+	}
+
+	if cfg.DiscordToken == "" {
+		return nil, fmt.Errorf("Veuillez saisir un token Discord dans le fichier de config")
 	}
 
 	return &cfg, nil

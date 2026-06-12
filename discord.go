@@ -2,14 +2,11 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
 
-var (
-	ChannelID = "917736643304243230"
-)
+var ChannelID string
 
 func StartBot() error {
 	cfg, err := LoadConfig()
@@ -21,6 +18,8 @@ func StartBot() error {
 	if err != nil {
 		return err
 	}
+
+	ChannelID = cfg.ChannelId
 
 	dg.Identify.Intents = discordgo.IntentsGuildMessages | discordgo.IntentsMessageContent
 
@@ -42,14 +41,21 @@ func StartBot() error {
 
 func listenChannel(s *discordgo.Session, m *discordgo.MessageCreate) {
 
+	if m.Author.Bot {
+		return
+	}
+
 	if m.ChannelID != ChannelID {
 		return
 	}
 
-	if strings.HasPrefix(m.Content, "http") {
-		err := AddURLToPlaylist(m.Content)
+	if len(m.Embeds) > 0 {
+		err := AddURLToPlaylist(m.Embeds[0].URL)
 		if err != nil {
 			fmt.Println("Erreur lors de l'ajout de l'url ", err)
+			s.ChannelMessageSend(ChannelID, "Erreur lors de l'ajout de la musique "+err.Error())
+		} else {
+			s.ChannelMessageSend(ChannelID, "Musique ajoutée dans la playlist")
 		}
 	}
 }
